@@ -1,0 +1,32 @@
+# Virtual Environment
+.venv/
+venv/
+
+# C++ Libraries/SDKs
+Libraries/
+
+# Compiled Python files
+__pycache__/
+
+# Visual Studio / C++ files
+*.obj
+*.exe
+*.ilk
+*.pdb
+*.suo
+*.user
+*.aps
+*.vcproj.filters
+*.vcxproj
+*.vcxproj.user
+*.vs/
+x64/
+Debug/
+Release/
+
+# Project data files
+packet_data.csv
+*.pkl
+
+# IDE-specific files (e.g., from IntelliJ)
+.idea/
