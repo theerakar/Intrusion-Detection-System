@@ -9,7 +9,7 @@ model = joblib.load('decision_tree_model.pkl')
 print("Model loaded successfully. Waiting for new data...")
 
 # The absolute path to the file created by the C++ program
-filename = r"C:\Users\theer\Documents\Intrusion-Detection-System\PacketSniffer\x64\Release\packet_data.csv"
+filename = "PacketSniffer/output/packet_data.csv"
 
 # Function to make a prediction (this remains the same)
 def predict_packet(packet_data):
