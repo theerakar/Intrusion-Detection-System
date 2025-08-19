@@ -1,0 +1,176 @@
+Real-Time Network Intrusion Detection System
+This project implements a prototype for a real-time network intrusion detection system (IDS). It leverages a C++ application for live packet sniffing and a Python machine learning model for detecting anomalies or potential attacks based on captured network traffic.
+
+🚀 Features
+Live Packet Capture: A C++ application captures network packets in real-time using the WinPcap (Npcap) library.
+
+Packet Feature Extraction: Extracts basic features (like packet length and timestamp) from captured packets.
+
+Real-Time Prediction: A Python script continuously reads new packet data and feeds it to a pre-trained machine learning model.
+
+Intrusion Detection: The machine learning model (Decision Tree Classifier) classifies network traffic as "Normal Traffic" or "Attack".
+
+Modular Design: Separates packet capture (C++) from analysis (Python) for flexibility.
+
+🛠️ Technologies Used
+C++ Component
+Language: C++
+
+Packet Capture Library: WinPcap (via Npcap SDK)
+
+Development Environment: Visual Studio
+
+Python Component
+Language: Python 3.x
+
+Data Manipulation: pandas
+
+Machine Learning: scikit-learn (specifically DecisionTreeClassifier)
+
+Model Persistence: joblib
+
+Development Environment: Python virtual environment (can be used with VS Code, IntelliJ IDEA, etc.)
+
+📦 Project Structure
+Intrusion-Detection-System/
+├── IDS_Project/
+│   ├── train_model.py            # Script to train and save the ML model
+│   ├── realtime_predictor.py     # Script for real-time packet analysis and prediction
+│   ├── decision_tree_model.pkl   # Saved trained ML model
+│   ├── data/                     # (Ignored by Git) Contains large training datasets
+│   └── .venv/                    # Python virtual environment
+│
+├── PacketSniffer/
+│   ├── PacketSniffer.sln         # Visual Studio Solution file
+│   ├── PacketSniffer/
+│   │   ├── PacketSniffer.cpp     # C++ source code for packet capture
+│   │   └── PacketSniffer.vcxproj # Visual Studio project file
+│   └── output/                   # Directory where packet_data.csv is saved by C++
+│
+└── .gitignore                    # Specifies files/folders to ignore in Git
+
+⚙️ Setup and Installation
+Prerequisites
+Git: For cloning the repository.
+
+Npcap (WinPcap): The packet sniffing library. Download and install Npcap from https://npcap.com/. Ensure "Install Npcap in WinPcap API-compatible Mode" is checked during installation.
+
+Npcap SDK: Required for compiling the C++ program. Download the Npcap SDK from https://npcap.com/ (usually listed under "Npcap SDK"). Extract it to a Libraries folder at the root of your Intrusion-Detection-System project (i.e., Intrusion-Detection-System/Libraries/Npcap SDK/).
+
+Visual Studio (for C++): Any recent version (e.g., 2019, 2022) with "Desktop development with C++" workload installed.
+
+Python 3.x: Installed on your system.
+
+1. Clone the Repository
+Open your terminal or command prompt and clone this repository:
+
+cd C:\Users\your_username\Documents  # Or your preferred development directory
+git clone https://github.com//Intrusion-Detection-System.git
+cd Intrusion-Detection-System
+
+2. C++ PacketSniffer Setup
+Extract Npcap SDK: Ensure you have extracted the Npcap SDK (e.g., Npcap SDK-1.x.x) into the Libraries folder at the root of your Intrusion-Detection-System project:
+
+Intrusion-Detection-System/
+├── Libraries/
+│   └── Npcap SDK/ # <--- This folder should contain 'Lib', 'Include', etc.
+├── IDS_Project/
+└── PacketSniffer/
+
+Open in Visual Studio: Open the PacketSniffer.sln solution file located at Intrusion-Detection-System/PacketSniffer/PacketSniffer.sln in Visual Studio.
+
+Configure Project Properties:
+
+Right-click on the PacketSniffer project in the Solution Explorer and select "Properties".
+
+Navigate to "VC++ Directories":
+
+Include Directories: Add the path to the Npcap SDK's Include folder (e.g., $(SolutionDir)Libraries\Npcap SDK\Include).
+
+Library Directories: Add the path to the Npcap SDK's Lib\x64 folder (e.g., $(SolutionDir)Libraries\Npcap SDK\Lib\x64).
+
+Navigate to "Linker" > "Input":
+
+Additional Dependencies: Add wpcap.lib; ws2_32.lib; (These are crucial for networking).
+
+Build Solution: Build the project (Ctrl+Shift+B or Build > Build Solution). This will create PacketSniffer.exe in PacketSniffer/x64/Release/ (or Debug/).
+
+3. Python Environment Setup
+Navigate to Python Project: Open your terminal and change directory to the Python project folder:
+
+cd C:\Users\your_username\Documents\Intrusion-Detection-System\IDS_Project
+
+Create Virtual Environment:
+
+python -m venv .venv
+
+Activate Virtual Environment:
+
+Windows:
+
+.\.venv\Scripts\activate
+
+Install Dependencies:
+
+pip install pandas scikit-learn joblib
+
+Train the Model: The decision_tree_model.pkl file is crucial for predictions. Run the training script:
+
+python train_model.py
+
+This will generate decision_tree_model.pkl in the IDS_Project folder.
+
+🚀 How to Run
+To run the real-time intrusion detection system, you need to execute the C++ packet sniffer and the Python real-time predictor simultaneously in separate terminal windows.
+
+Prepare C++ Output Directory:
+
+Inside your PacketSniffer folder (e.g., C:\Intrusion-Detection-System\PacketSniffer), create a new empty folder named output. This is where the C++ program will save packet_data.csv.
+
+Start the C++ Packet Sniffer (Terminal 1):
+
+Open a new Command Prompt or PowerShell.
+
+Navigate to the compiled C++ executable:
+
+cd C:\Users\your_username\Documents\Intrusion-Detection-System\PacketSniffer\x64\Release
+
+Run the executable:
+
+.\PacketSniffer.exe
+
+Follow the prompts to select your network interface (e.g., your Wi-Fi adapter). It will start capturing packets and writing to packet_data.csv in the output folder.
+
+Start the Python Real-Time Predictor (Terminal 2):
+
+Open a second new Command Prompt or PowerShell.
+
+Navigate to your Python project folder:
+
+cd C:\Users\your_username\Documents\Intrusion-Detection-System\IDS_Project
+
+Activate your virtual environment:
+
+.\.venv\Scripts\activate
+
+Run the real-time predictor script:
+
+python realtime_predictor.py
+
+This script will wait for packet_data.csv to be created and then start printing real-time predictions as new packets are captured.
+
+✨ Future Enhancements
+Expanded Feature Extraction: Implement more sophisticated packet parsing in C++ to extract a wider range of features (e.g., protocols, IP addresses, port numbers, flag counts) that are typically used in IDS datasets.
+
+Advanced Machine Learning Models: Experiment with more complex models like Random Forests, Gradient Boosting Machines, or Neural Networks for improved accuracy.
+
+Alerting System: Implement an alerting mechanism (e.g., pop-up, log file, email notification) when an "Attack" is detected.
+
+User Interface: Develop a simple GUI (using Tkinter, PyQt, or a web framework) to visualize traffic, predictions, and provide controls.
+
+Database Integration: Store captured data and predictions in a database for historical analysis.
+
+Refined Preprocessing: Adjust the Python preprocessing to align more closely with real-time, single-packet feature scaling, potentially using MinMaxScaler fitted on the training data.
+
+📄 License
+This project is licensed under the MIT License - see the LICENSE file for details.
